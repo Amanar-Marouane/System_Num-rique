@@ -13,17 +13,18 @@ void DecToBin(int theCode);
 void DecToOctal(int theCode);
 void DecToHexa(int theCode);
 
-void OctalToBin(int theCode);/*
-int OctalToDec(int theCode);
-int OctalToHexa(int theCode);
+void OctalToBin(int theCode);
+void OctalToDec(int theCode);
+void OctalToHexa(int theCode);
 
-int HexaToBin(int theCode);
-int HexaToDec(int theCode);
-int HexaToOctal(int theCode);
-*/
+void HexaToBin(char HexaCode[MAX_DIGITS]);
+void HexaToDec(char HexaCode[MAX_DIGITS]);
+void HexaToOctal(char HexaCode[MAX_DIGITS]);
+
 int main(){
     int codeType,conTypeFromBin,conTypeFromDec,conTypeFromOctal,conTypeFromHexa;
     int theCode;
+    char HexaCode[MAX_DIGITS] = {'\0'};
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     printf("press 1 to enter binary code.\npress 2 to enter decimal code.\npress 3 to enter octal code.\npress 4 to enter hexa-decimal code.\npress 0 to quit.\n");
     scanf("%i",&codeType);
@@ -38,7 +39,12 @@ int main(){
     }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     printf("Enter the code ==> ");
-    scanf("%i",&theCode);
+    if (codeType == 4)
+    {
+        scanf("%11s",HexaCode);
+    }else{
+        scanf("%11i",&theCode);
+    }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         switch (codeType)
         {
@@ -64,7 +70,7 @@ int main(){
             printf("Press valid number\n");
             break;
         }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     if (codeType == 1)
     {
         switch (conTypeFromBin)
@@ -106,6 +112,28 @@ int main(){
         case 1:
             OctalToBin(theCode);
             break;
+        case 2:
+            OctalToDec(theCode);
+            break;
+        case 3:
+            OctalToHexa(theCode);
+            break;
+        default:
+            printf("R U fokin damp.\n");
+            break;
+        }
+    }else if (codeType == 4)
+    {
+        switch (conTypeFromHexa)
+        {
+        case 1:
+            HexaToBin(HexaCode);
+            break;
+        case 2:
+            HexaToDec(HexaCode);
+        case 3:
+            HexaToOctal(HexaCode);
+            break;
         default:
             printf("R U fokin damp.\n");
             break;
@@ -128,7 +156,7 @@ void BinToDec(int theCode){
 
     printf("Ur decimal converted code is ==> %i.\n",decimalCode);
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void BinToOctal(int theCode){
     int octalCode = 0, basePosition = 1;
     while (theCode > 0)
@@ -180,7 +208,7 @@ void BinToHexa(int theCode){
     }
     printf("\n");
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void DecToBin(int theCode){
     int binaryDigits[MAX_DIGITS], index = 0;
 
@@ -279,3 +307,136 @@ void OctalToBin(int theCode){
     printf(".\n");
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void OctalToDec(int theCode){
+    int decCode = 0, firstDigit, power = 0;
+    while (theCode > 0)
+    {
+        firstDigit = theCode % 10;
+        decCode += firstDigit * pow(8,power);
+        power++;
+        theCode /= 10;
+    }
+    printf("Ur decimal converted code is ==> %i.\n",decCode);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void OctalToHexa(int theCode){
+    int decCode = 0, firstDigit, power = 0;
+    while (theCode > 0)
+    {
+        firstDigit = theCode % 10;
+        decCode += firstDigit * pow(8,power);
+        power++;
+        theCode /= 10;
+    }
+
+    int hexaCode[MAX_DIGITS], index = 0;
+    while (decCode > 0)
+    {
+        hexaCode[index] = decCode % 16;
+        if (hexaCode[index] <= 9)
+        {
+            hexaCode[index] = hexaCode[index] + '0';
+        }else if (hexaCode[index] > 9)
+        {
+            hexaCode[index] = (hexaCode[index] - 10) + 'A';
+        }
+        index++;
+        decCode /= 16;
+    }
+
+    printf("Ur hexa-decimal converted code is ==> ");
+    for (int i = index - 1; i >= 0; i--)
+    {
+        printf("%c",hexaCode[i]);
+    }
+    printf(".\n");
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void HexaToBin(char HexaCode[MAX_DIGITS]){
+    const char* BinMap[] = {"0000", "0001", "0010", "0011", "0100", "0101", "0110", "0111", "1000", "1001", "1010", "1011", "1100", "1101", "1110", "1111"};
+    int i = 0;
+
+    while (HexaCode[i] != '\0')
+    {
+        char hexDigit = HexaCode[i];
+        int index;
+
+        if (hexDigit >= '0' && hexDigit <= '9')
+        {
+            index = hexDigit - '0';
+        }else if (hexDigit >= 'A' && hexDigit <= 'F')
+        {
+            index = hexDigit - 'A' + 10;
+        }else if (hexDigit >= 'a' && hexDigit <= 'f')
+        {
+            index = hexDigit - 'a' + 10;
+        }else {
+            printf("Invalid hexadecimal digit: %c\n", hexDigit);
+            return;
+        }
+        printf("%s",BinMap[index]);
+        i++;
+    }
+    printf(".\n");
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void HexaToDec(char HexaCode[MAX_DIGITS]){
+    int integer, DecCode = 0, i = 0;
+
+    while (HexaCode[i] != '\0')
+    {   
+        char hexDigit = HexaCode[i];
+        int SixteenP = pow(16,strlen(HexaCode) - i - 1);
+        if (hexDigit >= '0' && hexDigit <= '9')
+        {
+            integer = hexDigit - '0';
+        }else if (hexDigit >= 'A' && hexDigit <= 'F')
+        {
+            integer = hexDigit - 'A' + 10;
+        }else if (hexDigit >= 'a' && hexDigit <= 'f')
+        {
+            integer = hexDigit - 'a' + 10;
+        }else {
+            printf("Invalid hexadecimal digit: %c\n", hexDigit);
+            return;
+        }
+        DecCode += integer * SixteenP;
+        i++;
+    }
+    printf("Ur decimal converted code is ==> %i.\n", DecCode);
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void HexaToOctal(char HexaCode[MAX_DIGITS]){
+    int integer, DecCode = 0, i = 0;
+
+    while (HexaCode[i] != '\0')
+    {   
+        char hexDigit = HexaCode[i];
+        int SixteenP = pow(16,strlen(HexaCode) - i - 1);
+        if (hexDigit >= '0' && hexDigit <= '9')
+        {
+            integer = hexDigit - '0';
+        }else if (hexDigit >= 'A' && hexDigit <= 'F')
+        {
+            integer = hexDigit - 'A' + 10;
+        }else if (hexDigit >= 'a' && hexDigit <= 'f')
+        {
+            integer = hexDigit - 'a' + 10;
+        }else {
+            printf("Invalid hexadecimal digit: %c\n", hexDigit);
+            return;
+        }
+        DecCode += integer * SixteenP;
+        i++;
+    }
+    int OctalCode = 0, base = 1, OctalDigit;
+    while (DecCode > 0)
+    {
+        OctalDigit = DecCode % 8 * base;
+        OctalCode += OctalDigit;
+        DecCode /= 8;
+        base *= 10;
+    }
+    
+    printf("Ur Octal converted code is ==> %i.\n", OctalCode);
+}
