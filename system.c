@@ -145,7 +145,11 @@ int main(){
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void BinToDec(int theCode){
     int decimalCode = 0, base = 1;
-
+    if (theCode == 0)
+    {
+        printf("Ur decimal converted code is ==> 0.\n");
+        return;
+    }
     while (theCode > 0)
     {
         int last_digit = theCode%10;
@@ -154,7 +158,7 @@ void BinToDec(int theCode){
         theCode /= 10;
     }
 
-    printf("Ur decimal converted code is ==> %i.\n",decimalCode);
+    printf("Ur deciimal converted code is ==> %i.\n",decimalCode);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void BinToOctal(int theCode){
@@ -162,6 +166,11 @@ void BinToOctal(int theCode){
     while (theCode > 0)
     {
         int theLast_ThreeDigits = theCode % 1000, base = 1, primaryPosition = 0;
+        if (theCode == 0)
+        {
+            printf("Ur octal converted code is ==> 0.\n");
+            return;
+        }
 
         while (theLast_ThreeDigits)
         {
@@ -185,6 +194,11 @@ void BinToHexa(int theCode){
     while (theCode > 0)
     {
         int theLast_FourDigits = theCode % 10000, base = 1, primaryPosition = 0;
+        if (theCode == 0)
+        {
+            printf("Ur hexa_decimal converted code is ==> 00.\n");
+            return;
+        }
 
         while (theLast_FourDigits > 0)
         {
@@ -201,7 +215,7 @@ void BinToHexa(int theCode){
         index++;
         theCode /= 10000;
     }
-    printf("Ur Hexa-Decimal converted code is ==> ");
+    printf("Ur hexa_decimal converted code is ==> ");
     for (int i = index - 1; i >= 0; i--)
     {
         printf("%c",hexaCode[i]);
@@ -214,7 +228,7 @@ void DecToBin(int theCode){
 
     if (theCode == 0)
     {
-        printf("Ur decimal converted code is ==> 0000.\n");
+        printf("Ur binary converted code is ==> 0000.\n");
         return;
     }
 
@@ -224,7 +238,7 @@ void DecToBin(int theCode){
         index ++;
         theCode /= 2;
     }
-    printf("Ur decimal converted code is ==> ");
+    printf("Ur binary converted code is ==> ");
     for (int i = index - 1; i >= 0; i--)
     {
         printf("%i",binaryDigits[i]);
@@ -256,6 +270,11 @@ void DecToOctal(int theCode){
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void DecToHexa(int theCode){
     int hexaCode[MAX_DIGITS], index = 0;
+    if (theCode == 0)
+    {
+        printf("Ur hexa converted code is ==> 0.\n");
+        return;
+    }
 
     while (theCode > 0)
     {
@@ -283,7 +302,7 @@ void OctalToBin(int theCode){
 
     if (theCode == 0)
     {
-        printf("Ur octal converted code is ==> 0000.\n");
+        printf("Ur binary converted code is ==> 0000.\n");
         return;
     }
 
@@ -309,6 +328,11 @@ void OctalToBin(int theCode){
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void OctalToDec(int theCode){
     int decCode = 0, firstDigit, power = 0;
+    if (theCode == 0)
+    {
+        printf("Ur decimal converted code is ==> 0.\n");
+        return;
+    }
     while (theCode > 0)
     {
         firstDigit = theCode % 10;
@@ -321,6 +345,11 @@ void OctalToDec(int theCode){
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void OctalToHexa(int theCode){
     int decCode = 0, firstDigit, power = 0;
+    if (theCode == 0)
+    {
+        printf("Ur hexa converted code is ==> 0.\n");
+        return;
+    }
     while (theCode > 0)
     {
         firstDigit = theCode % 10;
